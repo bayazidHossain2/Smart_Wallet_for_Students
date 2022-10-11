@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_menu_home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home"/>
+    <item android:id="@+id/nav_menu_market"
+        android:icon="@drawable/ic_baseline_library_add"
+        android:title="Market"/>
+    <item android:id="@+id/nav_menu_user"
+        android:icon="@drawable/ic_baseline_account_24"
+        android:title="User"/>
+</menu>

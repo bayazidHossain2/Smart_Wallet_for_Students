@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android dev/SmartWalletForStudents/app/src/main/res/drawable/spand_text_background.xml" value="0.25833333333333336" />
+        <entry key="..\:/Android dev/SmartWalletForStudents/app/src/main/res/drawable/text_background_deposit.xml" value="0.25833333333333336" />
+        <entry key="..\:/Android dev/SmartWalletForStudents/app/src/main/res/drawable/text_background_save.xml" value="0.25833333333333336" />
+        <entry key="..\:/Android dev/SmartWalletForStudents/app/src/main/res/drawable/text_background_spand.xml" value="0.25833333333333336" />
         <entry key="..\:/Android dev/SmartWalletForStudents/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Android dev/SmartWalletForStudents/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/Android dev/SmartWalletForStudents/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Android dev/SmartWalletForStudents/app/src/main/res/layout/fragment_market.xml" value="0.11778115501519756" />
         <entry key="..\:/Android dev/SmartWalletForStudents/app/src/main/res/layout/fragment_user.xml" value="0.11778115501519756" />
         <entry key="..\:/Android dev/SmartWalletForStudents/app/src/main/res/layout/fragment_user_logined.xml" value="0.2421875" />

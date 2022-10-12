@@ -1,15 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_background_color"
+    android:orientation="vertical"
     tools:context=".Fragments.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        android:orientation="horizontal"
+        android:background="#CCE2EC">
+        <TextView
+            android:id="@+id/tv_spand"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#F44336"
+            android:layout_weight="1"
+            android:background="#33F44336"
+            android:text="SPAND"/>
+        <TextView
+            android:id="@+id/tv_deposit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#CDDC39"
+            android:layout_weight="1"
+            android:background="#33CDDC39"
+            android:text="DEPOSIT"/>
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#4CAF50"
+            android:layout_weight="1"
+            android:background="#334CAF50"
+            android:text="SAVE"/>
+    </LinearLayout>
+
+</LinearLayout>

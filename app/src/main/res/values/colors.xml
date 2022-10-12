@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="home_background_color">#FBF1F4</color>
+    <color name="red_extra_light">#33F44336</color>
+    <color name="banana_extra_light">#33CDDC39</color>
+    <color name="green_extra_light">#334CAF50</color>
 </resources>

@@ -24,7 +24,7 @@
             android:textStyle="bold"
             android:textColor="#F44336"
             android:layout_weight="1"
-            android:background="#33F44336"
+            android:background="@color/red_extra_light"
             android:text="SPAND"/>
         <TextView
             android:id="@+id/tv_deposit"
@@ -37,7 +37,7 @@
             android:textStyle="bold"
             android:textColor="#CDDC39"
             android:layout_weight="1"
-            android:background="#33CDDC39"
+            android:background="@color/banana_extra_light"
             android:text="DEPOSIT"/>
 
         <TextView
@@ -52,8 +52,70 @@
             android:textStyle="bold"
             android:textColor="#4CAF50"
             android:layout_weight="1"
-            android:background="#334CAF50"
+            android:background="@color/green_extra_light"
             android:text="SAVE"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:background="@drawable/text_background_spand"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Money : "
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:background="@drawable/edit_text_background"
+            android:layout_margin="6dp"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:hint="Enter amount." />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/text_background_spand"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Desc. : "
+            android:gravity="center"
+            android:padding="10dp"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:id="@+id/editTextTextPersonName2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:background="@drawable/edit_text_background"
+            android:layout_margin="6dp"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:hint="Enter some short description." />
+    </LinearLayout>
+
 
 </LinearLayout>

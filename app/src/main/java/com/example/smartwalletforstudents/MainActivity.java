@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fl_container,new HomeFragment());
+        fragmentTransaction.commit();
 
         navigationView = findViewById(R.id.bottom_nav);
         container = findViewById(R.id.fl_container);

@@ -22,7 +22,10 @@ import android.widget.Toast;
 import com.example.smartwalletforstudents.R;
 
 public class HomeFragment extends Fragment {
+
     TextView spand,deposit,save;
+    LinearLayout linearLayoutMoney,linearLayoutDesc;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -44,6 +47,9 @@ public class HomeFragment extends Fragment {
         spand = view.findViewById(R.id.tv_spand);
         deposit = view.findViewById(R.id.tv_deposit);
         save = view.findViewById(R.id.tv_save);
+        spand.setBackground(null);
+        linearLayoutMoney = view.findViewById(R.id.ll_money);
+        linearLayoutDesc = view.findViewById(R.id.ll_desc);
 
         spand.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +60,9 @@ public class HomeFragment extends Fragment {
                 deposit.setBackground(drawable);
                 drawable = view.getResources().getDrawable(text_background_save);
                 save.setBackground(drawable);
+                drawable = view.getResources().getDrawable(text_background_spand);
+                linearLayoutMoney.setBackground(drawable);
+                linearLayoutDesc.setBackground(drawable);
             }
         });
 
@@ -66,6 +75,9 @@ public class HomeFragment extends Fragment {
                 spand.setBackground(drawable);
                 drawable = view.getResources().getDrawable(text_background_save);
                 save.setBackground(drawable);
+                drawable = view.getResources().getDrawable(text_background_deposit);
+                linearLayoutMoney.setBackground(drawable);
+                linearLayoutDesc.setBackground(drawable);
             }
         });
 
@@ -78,6 +90,9 @@ public class HomeFragment extends Fragment {
                 deposit.setBackground(drawable);
                 drawable = view.getResources().getDrawable(text_background_spand);
                 spand.setBackground(drawable);
+                drawable = view.getResources().getDrawable(text_background_save);
+                linearLayoutMoney.setBackground(drawable);
+                linearLayoutDesc.setBackground(drawable);
             }
         });
     }

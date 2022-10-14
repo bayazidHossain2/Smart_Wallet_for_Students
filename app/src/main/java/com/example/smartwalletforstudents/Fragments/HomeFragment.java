@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,9 +25,11 @@ import com.example.smartwalletforstudents.R;
 
 public class HomeFragment extends Fragment {
 
-    TextView spand,deposit,save;
+    TextView balance,spand,deposit,save,spandA,depositA,saveA,add,desc1,desc2,desc3,desc4;
+    EditText inputMoney,inputDesc;
     LinearLayout linearLayoutMoney,linearLayoutDesc;
     ImageView reset,cancle;
+    TextView oneTaka,twoTaka,fiveTaka,tenTaka,twentyTaka,fiftyTaka,hundTaka,halfTaka,thousandTaka;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -46,14 +49,52 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        balance = view.findViewById(R.id.tv_btn_balance);
         spand = view.findViewById(R.id.tv_spand);
         deposit = view.findViewById(R.id.tv_deposit);
         save = view.findViewById(R.id.tv_save);
+        spandA = view.findViewById(R.id.tv_spand_amount);
+        depositA = view.findViewById(R.id.tv_deposit_amount);
+        saveA = view.findViewById(R.id.tv_save_amount);
+        add = view.findViewById(R.id.tv_btn_add);
+        desc1 = view.findViewById(R.id.tv_desc_one);
+        desc2 = view.findViewById(R.id.tv_desc_two);
+        desc3 = view.findViewById(R.id.tv_desc_three);
+        desc4 = view.findViewById(R.id.tv_desc_four);
+        inputMoney = view.findViewById(R.id.et_money);
+        inputDesc = view.findViewById(R.id.et_desc);
+        oneTaka = view.findViewById(R.id.tv_btn_one_taka);
+        tenTaka = view.findViewById(R.id.tv_btn_two_taka);
+        fiveTaka = view.findViewById(R.id.tv_btn_five_taka);
+        tenTaka = view.findViewById(R.id.tv_btn_ten_taka);
+        twentyTaka = view.findViewById(R.id.tv_btn_twenty_taka);
+        fiftyTaka = view.findViewById(R.id.tv_btn_fifty_taka);
+        hundTaka = view.findViewById(R.id.tv_btn_hundred_taka);
+        halfTaka = view.findViewById(R.id.tv_btn_half_thousand_taka);
+        thousandTaka = view.findViewById(R.id.tv_btn_thousand_taka);
+
         spand.setBackground(null);
         linearLayoutMoney = view.findViewById(R.id.ll_money);
         linearLayoutDesc = view.findViewById(R.id.ll_desc);
         reset = view.findViewById(R.id.iv_reset);
         cancle = view.findViewById(R.id.iv_cancle);
+
+        balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(balance.getText().toString().equals("Balance")){
+                    balance.setText("12547 /-");
+                    spandA.setText("7548 /-");
+                    depositA.setText("145 /-");
+                    saveA.setText("3654781 /-");
+                }else{
+                    balance.setText("Balance");
+                    spandA.setText("");
+                    depositA.setText("");
+                    saveA.setText("");
+                }
+            }
+        });
 
         spand.setOnClickListener(new View.OnClickListener() {
             @Override

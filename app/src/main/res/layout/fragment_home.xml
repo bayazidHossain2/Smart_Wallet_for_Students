@@ -16,11 +16,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00BCD4"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Smart Wallet"
+                    android:layout_weight="1"
+                    android:textSize="24sp"
+                    android:padding="8dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tv_btn_balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Balance"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_vertical|end"
+                    android:layout_weight="2"
+                    android:textSize="18sp"
+                    android:padding="8dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_margin="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
                 android:background="#CCE2EC"
                 android:orientation="horizontal">
 
@@ -69,6 +101,51 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_spand_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="#F44336"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_deposit_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="#CDDC39"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_save_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="#4CAF50"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/ll_money"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +172,7 @@
                     android:textColor="@color/black"
                     android:hint="Enter amount."
                     android:textColorHint="#70000000"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:padding="8dp" />
 
             </LinearLayout>
@@ -177,7 +254,7 @@
                         android:background="#00BCD4"
                         android:gravity="center"
                         android:padding="8dp"
-                        android:text="ADD"
+                        android:text="  ADD  "
                         android:textColor="#CDDC39"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -199,6 +276,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_desc_one"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -206,11 +284,12 @@
                         android:background="@drawable/background_foreside_round_light"
                         android:gravity="center"
                         android:padding="8dp"
-                        android:text="ভাড়া"
+                        android:text="গাড়ি ভাড়া"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tv_desc_two"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -223,6 +302,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_desc_three"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -235,6 +315,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_desc_four"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -264,6 +345,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_btn_one_taka"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -276,6 +358,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_btn_two_taka"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -288,6 +371,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_btn_five_taka"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -307,6 +391,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_btn_ten_taka"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -319,6 +404,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_btn_twenty_taka"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -331,6 +417,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_btn_fifty_taka"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -350,6 +437,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_btn_hundred_taka"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -362,6 +450,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_btn_half_thousand_taka"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -374,6 +463,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_btn_thousand_taka"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"

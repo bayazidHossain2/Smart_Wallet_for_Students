@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class HomeFragment extends Fragment {
 
     TextView spand,deposit,save;
     LinearLayout linearLayoutMoney,linearLayoutDesc;
+    ImageView reset,cancle;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -50,6 +52,8 @@ public class HomeFragment extends Fragment {
         spand.setBackground(null);
         linearLayoutMoney = view.findViewById(R.id.ll_money);
         linearLayoutDesc = view.findViewById(R.id.ll_desc);
+        reset = view.findViewById(R.id.iv_reset);
+        cancle = view.findViewById(R.id.iv_cancle);
 
         spand.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +67,8 @@ public class HomeFragment extends Fragment {
                 drawable = view.getResources().getDrawable(text_background_spand);
                 linearLayoutMoney.setBackground(drawable);
                 linearLayoutDesc.setBackground(drawable);
+                reset.setBackground(drawable);
+                cancle.setBackground(drawable);
             }
         });
 
@@ -78,6 +84,8 @@ public class HomeFragment extends Fragment {
                 drawable = view.getResources().getDrawable(text_background_deposit);
                 linearLayoutMoney.setBackground(drawable);
                 linearLayoutDesc.setBackground(drawable);
+                reset.setBackground(drawable);
+                cancle.setBackground(drawable);
             }
         });
 
@@ -93,6 +101,8 @@ public class HomeFragment extends Fragment {
                 drawable = view.getResources().getDrawable(text_background_save);
                 linearLayoutMoney.setBackground(drawable);
                 linearLayoutDesc.setBackground(drawable);
+                reset.setBackground(drawable);
+                cancle.setBackground(drawable);
             }
         });
     }

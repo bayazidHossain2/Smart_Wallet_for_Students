@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +48,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        balance = view.findViewById(R.id.tv_btn_balance);
+        balance = view.findViewById(R.id.tv_btn_login_balance);
         spand = view.findViewById(R.id.tv_spand);
         deposit = view.findViewById(R.id.tv_deposit);
         save = view.findViewById(R.id.tv_save);
@@ -74,8 +73,8 @@ public class HomeFragment extends Fragment {
         thousandTaka = view.findViewById(R.id.tv_btn_thousand_taka);
 
         spand.setBackground(null);
-        linearLayoutMoney = view.findViewById(R.id.ll_money);
-        linearLayoutDesc = view.findViewById(R.id.ll_desc);
+        linearLayoutMoney = view.findViewById(R.id.ll_email);
+        linearLayoutDesc = view.findViewById(R.id.ll_login_password);
         reset = view.findViewById(R.id.iv_reset);
         cancle = view.findViewById(R.id.iv_cancle);
 

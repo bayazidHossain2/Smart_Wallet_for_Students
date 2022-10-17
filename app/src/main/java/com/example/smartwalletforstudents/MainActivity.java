@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import com.example.smartwalletforstudents.Fragments.HomeFragment;
 import com.example.smartwalletforstudents.Fragments.MarketFragment;
 import com.example.smartwalletforstudents.Fragments.UserFragment;
+import com.example.smartwalletforstudents.Fragments.UserLoginedFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.commit();
                         break;
                     case R.id.nav_menu_user:
-                        fragmentTransaction.replace(R.id.fl_container,new UserFragment());
+                        fragmentTransaction.replace(R.id.fl_container,new UserLoginedFragment());
                         fragmentTransaction.commit();
                         break;
                 }

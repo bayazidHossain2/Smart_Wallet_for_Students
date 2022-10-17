@@ -33,7 +33,7 @@
                     android:textColor="@color/white"/>
 
                 <TextView
-                    android:id="@+id/tv_btn_balance"
+                    android:id="@+id/tv_btn_login_balance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Balance"
@@ -146,7 +146,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_money"
+                android:id="@+id/ll_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
@@ -159,6 +159,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:paddingLeft="10dp"
+                    android:textColor="@color/black"
                     android:text="Money : "
                     android:textSize="20sp" />
 
@@ -178,7 +179,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_desc"
+                android:id="@+id/ll_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -192,6 +193,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:padding="10dp"
+                    android:textColor="@color/black"
                     android:text="Desc. : "
                     android:textSize="20sp" />
 
@@ -254,8 +256,8 @@
                         android:background="#00BCD4"
                         android:gravity="center"
                         android:padding="8dp"
-                        android:text="  ADD  "
-                        android:textColor="#CDDC39"
+                        android:text="   ADD   "
+                        android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>

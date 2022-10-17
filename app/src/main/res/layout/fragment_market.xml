@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/home_background_color"
+    android:orientation="vertical"
     tools:context=".Fragments.MarketFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="#00BCD4"
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Smart Wallet"
+            android:layout_weight="1"
+            android:textSize="24sp"
+            android:padding="8dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_btn_login_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Balance"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical|end"
+            android:layout_weight="2"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

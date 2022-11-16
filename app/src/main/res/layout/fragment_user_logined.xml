@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_background_color"
-    android:orientation="vertical"
     tools:context=".Fragments.UserLoginedFragment">
 
     <TextView
@@ -75,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.19">
+        app:layout_constraintVertical_bias="0.120000005">
 
         <TextView
             android:layout_width="wrap_content"
@@ -156,7 +155,7 @@
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="@+id/ll_login_password"
         app:layout_constraintTop_toBottomOf="@+id/ll_login_password"
-        app:layout_constraintVertical_bias="0.37" />
+        app:layout_constraintVertical_bias="0.24000001" />
 
     <TextView
         android:id="@+id/textView2"
@@ -184,6 +183,18 @@
         android:textColor="@color/purple_700"
         android:padding="4dp"
         app:layout_constraintEnd_toEndOf="@+id/ll_login_password"
+        app:layout_constraintTop_toBottomOf="@+id/ll_login_password" />
+
+    <TextView
+        android:id="@+id/tv_login_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:padding="4dp"
+        android:textColor="#F44336"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_login"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_login_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

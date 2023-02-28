@@ -10,3 +10,5 @@ And parents or guardian will easily track our spending estimation. <br><br>
 Some smart peoples to make money management are write there estimate in draft paper like diary, note etc. But this application will make this job as easy as	   possible. And encourage regular people to make money management. 
 
 <img src="Images/Home.jpg" height="400">
+<img src="Images/Register.jpg" height="400">
+<img src="Images/Login.jpg" height="400">

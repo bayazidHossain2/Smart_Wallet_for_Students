@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-final Color hardBlue = Colors.blue.shade700;
-final Color blue = Colors.blue;
-final Color lightBlue = Colors.blue.shade100;
+final Color hardBlue = Colors.teal.shade700;
+final Color blue = Colors.teal;
+final Color lightBlue = Colors.teal.shade100;
 final Color red = Colors.red;
 final Color lightRed = Colors.red.shade100;
 final Color yellow = Colors.yellow;

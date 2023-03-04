@@ -50,8 +50,7 @@ class _HomePageState extends State<HomePage> {
 
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
-        selectedItemColor: white,
-        backgroundColor: blue,
+        selectedItemColor: blue,
         onTap: (value) {
           setState(() {
             index = value;
@@ -67,7 +66,7 @@ class _HomePageState extends State<HomePage> {
             label: 'Market',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.person),
             label: 'User',
           ),
         ],

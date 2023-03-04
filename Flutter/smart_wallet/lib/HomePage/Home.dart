@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:smart_wallet/common.dart';
 
+import '../Database/db.dart';
+import '../Models/Estimate.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -33,6 +36,10 @@ class _HomeState extends State<Home> {
   ];
   final _amountController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _shortDescriptionCotroller = TextEditingController();
+  final _longDescriptionCotroller = TextEditingController();
+
+
   int totalAmount = 0;
   List<int> amounts = [];
 
@@ -103,7 +110,7 @@ class _HomeState extends State<Home> {
           _amountController.text = totalAmount.toString();
         },
         child: Card(
-          color: blue,
+          color: lightBlue,
           margin: EdgeInsets.all(5),
           child: Center(
               child: Text(
@@ -118,6 +125,79 @@ class _HomeState extends State<Home> {
     );
   }
 
+  TextEditingController _textFieldController = TextEditingController();
+  Future<void> _displayTextInputDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('TextField in Dialog'),
+            content: TextField(
+              // onChanged: (value) {
+              //   setState(() {
+              //     valueText = value;
+              //   });
+              // },
+              controller: _textFieldController,
+              decoration: InputDecoration(hintText: "Text Field in Dialog"),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                child: Text('CANCEL'),
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+              ElevatedButton(
+                child: Text('OK'),
+                onPressed: () {
+                  setState(() {
+                    //codeDialog = valueText;
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+            ],
+          );
+        });
+  }
+  // String codeDialog;
+  // String valueText;
+
+
+  Future<void> _showMyDialog() async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Add Details'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              TextField(
+                
+              ),
+              
+
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Approve'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     displayHeight = MediaQuery.of(context).size.height;
@@ -125,6 +205,9 @@ class _HomeState extends State<Home> {
     fontSize = displayWidth * upperTextRatio;
 
     return Scaffold(
+      
+      resizeToAvoidBottomInset: false,
+
       body: Column(
         children: [
           Expanded(
@@ -194,7 +277,7 @@ class _HomeState extends State<Home> {
                 style: TextStyle(
                   fontSize: displayWidth * upperTextRatio,
                 ),
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   labelText: 'Description',
                   filled: true,
@@ -231,8 +314,24 @@ class _HomeState extends State<Home> {
                 ),
                 ElevatedButton(
                   onPressed: (() {
-                    totalAmount = 0;
-                    amounts.clear();
+                    if (_amountController.text.isNotEmpty) {
+                      setState(() {
+                        final estimate = Estimate(
+                          type: upperText[index],
+                          time: DateTime.now(),
+                          amount: totalAmount,
+                          description: _descriptionController.text,
+                          market_id: 0,
+                        );
+                        final res =
+                            WalletDatabase.instance.createEstimate(estimate);
+                        print('Inserted restlt is : ------' + res.toString());
+                      });
+                      _amountController.clear();
+                      _descriptionController.clear();
+                      totalAmount = 0;
+                      amounts.clear();
+                    }
                   }),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -256,13 +355,20 @@ class _HomeState extends State<Home> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Card(
-                      color: lightBlue,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.add,
-                          size: 30,
+                    GestureDetector(
+                      onTap: () {
+                        print('Add details clicked');
+                        _showMyDialog();
+
+                      },
+                      child: Card(
+                        color: lightBlue,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.add,
+                            size: 30,
+                          ),
                         ),
                       ),
                     ),

@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     displayWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           'Smart Wallet',

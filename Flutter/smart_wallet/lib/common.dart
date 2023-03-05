@@ -12,3 +12,17 @@ final Color lightGreen = Colors.green.shade100;
 final Color white = Colors.white;
 final Color violate = Colors.purple;
 final Color lightViolate = Colors.purple.shade100;
+
+final roundBorder = OutlineInputBorder(
+    borderSide: BorderSide(
+      width: 2,
+      color: blue,
+    ),
+    borderRadius: BorderRadius.circular(20),
+  );
+  final squareBorder = OutlineInputBorder(
+    borderSide: BorderSide(
+      width: 2,
+      color: blue,
+    ),
+  );

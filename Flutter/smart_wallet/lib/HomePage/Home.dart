@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_wallet/Models/Details.dart';
 import 'package:smart_wallet/common.dart';
 
 import '../Database/db.dart';
 import '../Models/Estimate.dart';
+import '../Models/Market.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,6 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int? _currentMarketId = -1;
   List<String> upperText = [
     'SPAND',
     'DEPOSIT',
@@ -38,30 +42,63 @@ class _HomeState extends State<Home> {
   final _descriptionController = TextEditingController();
   final _shortDescriptionCotroller = TextEditingController();
   final _longDescriptionCotroller = TextEditingController();
-
+  int importantCount = 1;
 
   int totalAmount = 0;
   List<int> amounts = [];
 
-  Widget buildDetails(String text) {
-    return GestureDetector(
-      onTap: () {
-        print('TAP');
-        setState(() {
-          _descriptionController.text = text;
-        });
-      },
-      onLongPress: () {
-        print('Long pressed');
-      },
-      child: Card(
-        color: lightBlue,
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Text(text),
-        ),
-      ),
-    );
+  List<Details> detailsList = [];
+  List<Widget> detailsView = [];
+  bool detailsIsLoading = false;
+  int detailsUpdatingId = -1;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMarketId();
+    loadDetails();
+  }
+
+  void loadDetails() async {
+    setState(() {
+      detailsIsLoading = true;
+      print('--------------details reading starr');
+    });
+
+    this.detailsList = await WalletDatabase.instance.readAllDetails();
+
+    setState(() {
+      detailsIsLoading = false;
+      print('details reading finish');
+    });
+  }
+
+  void getMarketId() async {
+    final prefs = await SharedPreferences.getInstance();
+    this._currentMarketId = prefs.getInt(MarketFields.currentMarket);
+    if (_currentMarketId == null) {
+      print("Null Market id----------");
+      List<Market> allMarketList =
+          await WalletDatabase.instance.readAllMarket();
+      print('Total market find : ' + allMarketList.length.toString());
+      if (allMarketList.isEmpty) {
+        final market = Market(
+          name: 'Default',
+          creatingTime: DateTime.now(),
+        );
+        final currentMarket =
+            await WalletDatabase.instance.createMarket(market);
+        _currentMarketId = currentMarket.id ?? -1;
+        await prefs.setInt(MarketFields.currentMarket, _currentMarketId ?? 0);
+      } else {
+        this._currentMarketId = allMarketList[0].id;
+      }
+      // print('Market name is : '+market.name);
+      print('P says market is : ' +
+          prefs.getInt(MarketFields.currentMarket).toString());
+    } else {
+      print('find market id is : ' + _currentMarketId.toString());
+    }
   }
 
   Color? getBackgroundColor(int index) {
@@ -100,6 +137,33 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget buildDetails(int index) {
+    return GestureDetector(
+      onTap: () {
+        print('TAP');
+        setState(() {
+          _descriptionController.text = detailsList[index].long;
+        });
+      },
+      onLongPress: () {
+        print('Long pressed');
+        detailsUpdatingId = detailsList[index].id ?? -1;
+        _shortDescriptionCotroller.text = detailsList[index].short;
+        _longDescriptionCotroller.text = detailsList[index].long;
+        importantCount = detailsList[index].important;
+        _showMyDialog();
+        print('Id is found $detailsUpdatingId');
+      },
+      child: Card(
+        color: lightBlue,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Text(detailsList[index].short),
+        ),
+      ),
+    );
+  }
+
   Widget buildMoneyButton(String text) {
     return Expanded(
       child: GestureDetector(
@@ -125,79 +189,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  TextEditingController _textFieldController = TextEditingController();
-  Future<void> _displayTextInputDialog(BuildContext context) async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('TextField in Dialog'),
-            content: TextField(
-              // onChanged: (value) {
-              //   setState(() {
-              //     valueText = value;
-              //   });
-              // },
-              controller: _textFieldController,
-              decoration: InputDecoration(hintText: "Text Field in Dialog"),
-            ),
-            actions: <Widget>[
-              ElevatedButton(
-                child: Text('CANCEL'),
-                onPressed: () {
-                  setState(() {
-                    Navigator.pop(context);
-                  });
-                },
-              ),
-              ElevatedButton(
-                child: Text('OK'),
-                onPressed: () {
-                  setState(() {
-                    //codeDialog = valueText;
-                    Navigator.pop(context);
-                  });
-                },
-              ),
-            ],
-          );
-        });
-  }
-  // String codeDialog;
-  // String valueText;
-
-
-  Future<void> _showMyDialog() async {
-  return showDialog<void>(
-    context: context,
-    barrierDismissible: false, // user must tap button!
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Add Details'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: const <Widget>[
-              TextField(
-                
-              ),
-              
-
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: const Text('Approve'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
   @override
   Widget build(BuildContext context) {
     displayHeight = MediaQuery.of(context).size.height;
@@ -205,9 +196,7 @@ class _HomeState extends State<Home> {
     fontSize = displayWidth * upperTextRatio;
 
     return Scaffold(
-      
       resizeToAvoidBottomInset: false,
-
       body: Column(
         children: [
           Expanded(
@@ -314,23 +303,32 @@ class _HomeState extends State<Home> {
                 ),
                 ElevatedButton(
                   onPressed: (() {
-                    if (_amountController.text.isNotEmpty) {
-                      setState(() {
-                        final estimate = Estimate(
-                          type: upperText[index],
-                          time: DateTime.now(),
-                          amount: totalAmount,
-                          description: _descriptionController.text,
-                          market_id: 0,
-                        );
-                        final res =
-                            WalletDatabase.instance.createEstimate(estimate);
-                        print('Inserted restlt is : ------' + res.toString());
-                      });
-                      _amountController.clear();
-                      _descriptionController.clear();
-                      totalAmount = 0;
-                      amounts.clear();
+                    if (_currentMarketId == null || _currentMarketId == -1) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: lightRed,
+                          content: Text('No market is activated.'))
+                      );
+                    } else {
+                      if (_amountController.text.isNotEmpty) {
+                        setState(() {
+                          final estimate = Estimate(
+                            type: upperText[index],
+                            time: DateTime.now(),
+                            amount: totalAmount,
+                            description: _descriptionController.text,
+                            market_id: _currentMarketId ?? 0,
+                          );
+                          final res =
+                              WalletDatabase.instance.createEstimate(estimate);
+                          print('Inserted restlt is : ------' + res.toString());
+                          print('insert to the market id is : '+_currentMarketId.toString());
+                        });
+                        _amountController.clear();
+                        _descriptionController.clear();
+                        totalAmount = 0;
+                        amounts.clear();
+                      }
                     }
                   }),
                   child: Padding(
@@ -350,37 +348,15 @@ class _HomeState extends State<Home> {
           Expanded(
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 8),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        print('Add details clicked');
-                        _showMyDialog();
-
-                      },
-                      child: Card(
-                        color: lightBlue,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.add,
-                            size: 30,
-                          ),
-                        ),
+              child: detailsIsLoading
+                  ? CircularProgressIndicator()
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: buildDetailsView(),
                       ),
                     ),
-                    buildDetails('গাড়ি ভাড়া'),
-                    buildDetails('চা নাস্তা'),
-                    buildDetails('অন্যান্য'),
-                    buildDetails('Test text 1'),
-                    buildDetails('Test text 2'),
-                    buildDetails('Test text 3'),
-                  ],
-                ),
-              ),
             ),
           ),
           Expanded(
@@ -443,6 +419,172 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
+    );
+  }
+
+  List<Widget> buildDetailsView() {
+    detailsView.clear();
+    detailsView.add(GestureDetector(
+      onTap: () {
+        print('Add details clicked');
+        _showMyDialog();
+      },
+      child: Card(
+        color: lightBlue,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.add,
+            size: 30,
+          ),
+        ),
+      ),
+    ));
+
+    for (int i = 0; i < detailsList.length; i++) {
+      detailsView.add(buildDetails(i));
+    }
+
+    return detailsView;
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: detailsUpdatingId == -1
+              ? Text('Creating Details')
+              : Text('Updating Details'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    label: Text('Short Description'),
+                    focusedBorder: squareBorder,
+                    enabledBorder: roundBorder,
+                  ),
+                  controller: _shortDescriptionCotroller,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    label: Text('Optional Long Description'),
+                    focusedBorder: squareBorder,
+                    enabledBorder: roundBorder,
+                  ),
+                  controller: _longDescriptionCotroller,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: (() {
+                        importantCount = importantCount + 1;
+                        Navigator.of(context).pop();
+                        _showMyDialog();
+                      }),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(lightBlue),
+                      ),
+                      child: Icon(Icons.add, color: green),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(importantCount.toString()),
+                    ),
+                    TextButton(
+                      onPressed: (() {
+                        if (importantCount > 1) {
+                          importantCount = importantCount - 1;
+                          Navigator.of(context).pop();
+                          _showMyDialog();
+                        }
+                      }),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(lightBlue),
+                      ),
+                      child: Icon(
+                        Icons.remove,
+                        color: red,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            detailsUpdatingId == -1
+                ? Container(
+                    width: 0,
+                    height: 0,
+                  )
+                : ElevatedButton(
+                    child: const Text('Delete'),
+                    onPressed: () {
+                      _shortDescriptionCotroller.clear();
+                      _longDescriptionCotroller.clear();
+                      importantCount = 1;
+                      WalletDatabase.instance.deleteDetails(detailsUpdatingId);
+                      detailsUpdatingId = -1;
+                      loadDetails();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+            ElevatedButton(
+              child: const Text('Calcle'),
+              onPressed: () {
+                _shortDescriptionCotroller.clear();
+                _longDescriptionCotroller.clear();
+                importantCount = 1;
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Save'),
+              onPressed: () {
+                if (_shortDescriptionCotroller.text.isNotEmpty) {
+                  final details = Details(
+                    short: _shortDescriptionCotroller.text,
+                    long: _longDescriptionCotroller.text.isEmpty
+                        ? _shortDescriptionCotroller.text
+                        : _longDescriptionCotroller.text,
+                    important: importantCount,
+                  );
+                  if (detailsUpdatingId >= 0) {
+                    final res = WalletDatabase.instance
+                        .updateDetails(details.copy(id: detailsUpdatingId));
+                    print(
+                        'Details Updated restlt is : ------' + res.toString());
+                    detailsUpdatingId = -1;
+                  } else {
+                    final res = WalletDatabase.instance.createDetails(details);
+                    print('Details inserted Inserted restlt is : ------' +
+                        res.toString());
+                  }
+                  _amountController.clear();
+                  _descriptionController.clear();
+                  totalAmount = 0;
+                  amounts.clear();
+
+                  _shortDescriptionCotroller.clear();
+                  _longDescriptionCotroller.clear();
+                  importantCount = 1;
+                  loadDetails();
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

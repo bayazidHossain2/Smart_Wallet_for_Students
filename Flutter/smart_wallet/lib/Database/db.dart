@@ -24,7 +24,7 @@ class WalletDatabase{
     final dbPath = await getDatabasesPath();
     final Path = join(dbPath, filePath);
     
-    return await openDatabase(Path, version:  1, onCreate: _createDB);
+    return await openDatabase(Path, version:  2, onCreate: _createDB);
   }
 
   Future _createDB(Database db, int version) async {
@@ -89,7 +89,7 @@ Future<Details> createDetails(Details details) async {
     final db = await instance.database;
     final orderBy = '${DetailsFields.important} DESC';
     final result = await db.query(
-      mtableName,
+      dtableName,
       orderBy: orderBy,
     );
     if(result.isNotEmpty){
@@ -98,6 +98,28 @@ Future<Details> createDetails(Details details) async {
       throw Exception('Database is empty.');
     }
   }
+
+  Future<int> updateDetails(Details details) async {
+    final db = await instance.database;
+    print('------updating ${details.id}');
+    return db.update(
+      dtableName,
+      details.toJson(),
+      where: '${DetailsFields.id} = ?',
+      whereArgs: [details.id],
+    );
+  }
+
+  Future<int> deleteDetails(int id) async {
+    final db = await instance.database;
+
+    return await db.delete(
+      dtableName,
+      where: '${DetailsFields.id} = ?',
+      whereArgs: [id],
+    );
+  }
+
   Future<Market> createMarket(Market market) async {
     final db = await instance.database;
 
@@ -175,6 +197,32 @@ Future<Details> createDetails(Details details) async {
       return [];
     }
   }
+
+  Future<List<Estimate>> readAllEstimateByMarketId(int marketid) async {
+    final db = await instance.database;
+    print('Read all est called----------');
+
+    final orderBy = '${EstimateFields.time} DESC';
+
+    final result = await db.query(
+      etableName,
+      where: '${EstimateFields.market_id} = ?',
+      whereArgs: [marketid],
+      orderBy: orderBy,
+    );
+    if(result.isNotEmpty){
+      return result.map((json) => Estimate.fromJson(json)).toList();
+    }else{
+      //throw Exception('Estimate is empty.');
+      return [];
+    }
+  }
+
   
+
+  Future close() async {
+    final db = await instance.database;
+    db.close();
+  }
 
 }

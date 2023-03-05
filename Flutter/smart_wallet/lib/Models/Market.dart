@@ -20,6 +20,12 @@ class Market {
     required this.creatingTime,
   });
 
+  int getId(){
+    if(id == null){
+      return 0;
+    }
+    return id ?? 0;
+  }
   Market copy({
     int? id,
     String? name,

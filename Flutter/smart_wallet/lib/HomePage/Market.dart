@@ -6,6 +6,7 @@ import 'package:smart_wallet/Models/Estimate.dart';
 import 'package:smart_wallet/Pages/AllMarketPages.dart';
 import 'package:smart_wallet/common.dart';
 import '../Models/Market.dart';
+import 'HomePage.dart';
 
 class Market1 extends StatefulWidget {
   const Market1({super.key});
@@ -22,12 +23,11 @@ class _MarketState extends State<Market1> {
   final _marketNameController = TextEditingController();
   int? _currentMarketId;
   Map<String, Color> colors = {
-    'SPAND': lightRed,
+    'SPEND': lightRed,
     'DEPOSIT': lightViolate,
     'SAVE': lightGreen,
   };
 
-  List<String> names = ['Baki', 'Aki', 'Caki', 'Naki'];
   @override
   void initState() {
     // TODO: implement initState
@@ -92,13 +92,15 @@ class _MarketState extends State<Market1> {
     return Scaffold(
         body: isMarketFind
             ? isLoading
-                ? CircularProgressIndicator()
+                ? Center(child: CircularProgressIndicator())
                 : Column(
                     children: [
                       Row(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.70,
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            color: lightBlue,
+                            margin: EdgeInsets.all(5),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
@@ -136,34 +138,6 @@ class _MarketState extends State<Market1> {
         ));
   }
 
-  List<Widget> buildEstimate() {
-    List<Widget> list = [];
-
-    for (int i = 0; i < estimates.length; i++) {
-      String details = estimates[i].description;
-      String amount = estimates[i].amount.toString();
-      String type = estimates[i].type.toString();
-      String time = estimates[i].time.toString();
-      list.add(
-        Card(
-          margin: EdgeInsets.all(4),
-          color: colors[type],
-          child: Column(
-            children: [
-              Text(time),
-              Text(details),
-              Text(amount),
-            ],
-          ),
-        ),
-      );
-    }
-    // list.add(
-    //   buildEstimates()
-    // );
-    return list;
-  }
-
   Widget buildEstimates() => StaggeredGridView.countBuilder(
         padding: EdgeInsets.all(8),
         itemCount: estimates.length,
@@ -181,6 +155,9 @@ class _MarketState extends State<Market1> {
 
               //refreshNotes();
             },
+            onLongPress: () {
+              _showDeleteDialog(estimate.id ?? 0);
+            },
             //child: Text('Name is : '+name),
             child: Card(
               color: colors[estimate.type],
@@ -196,15 +173,15 @@ class _MarketState extends State<Market1> {
                       ),
                     ),
                     Text(estimate.time.toString().substring(0, 19)),
-                    Text('Type : '+estimate.type),
-                    SizedBox(height: 10,),
+                    Text('Type : ' + estimate.type),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Wrap(
                       children: [
                         Text('Amount : ',
                             style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500
-                            )),
+                                fontSize: 16, fontWeight: FontWeight.w500)),
                         Text(
                           estimate.amount.toString(),
                           style: TextStyle(fontSize: 16, color: red),
@@ -251,14 +228,46 @@ class _MarketState extends State<Market1> {
                       name: _marketNameController.text, creatingTime: time);
                   this.currentMarket =
                       await WalletDatabase.instance.createMarket(market);
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setInt(
+                      MarketFields.currentMarket, currentMarket!.id ?? 0);
                   print('Market inserted  restlt is : ------' +
                       currentMarket!.name);
                   _marketNameController.clear();
-
+                  estimates.clear();
                   Navigator.of(context).pop();
                 }
               },
             ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showDeleteDialog(int estimateId) async {
+    return showDialog<void>(
+      context: context,
+      //barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Estimate Deleting'),
+          content: Text('Are you sure to delete this estimate.'),
+          actions: [
+            ElevatedButton(
+              
+                onPressed: (() {
+                  WalletDatabase.instance.deleteEstimate(estimateId);
+                  Navigator.of(context).popUntil((route) => false);
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: ((context) => HomePage())));
+                }),
+                child: Text('I am Sure',)),
+            ElevatedButton(
+                onPressed: (() {
+                  Navigator.pop(context);
+                }),
+                child: Text('Cancle')),
           ],
         );
       },

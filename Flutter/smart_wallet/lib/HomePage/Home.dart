@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_wallet/Models/Details.dart';
+import 'package:smart_wallet/Pages/HelpPages.dart';
 import 'package:smart_wallet/common.dart';
 
 import '../Database/db.dart';
@@ -18,11 +19,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int? _currentMarketId = -1;
-  List<String> upperText = [
-    'SPAND',
-    'DEPOSIT',
-    'SAVE',
-  ];
+
   double displayHeight = 0.0;
   double displayWidth = 0.0;
   int index = 0;
@@ -96,6 +93,7 @@ class _HomeState extends State<Home> {
       // print('Market name is : '+market.name);
       print('P says market is : ' +
           prefs.getInt(MarketFields.currentMarket).toString());
+      Navigator.push(context, MaterialPageRoute(builder: ((context) => HelpPages())));
     } else {
       print('find market id is : ' + _currentMarketId.toString());
     }
@@ -226,15 +224,21 @@ class _HomeState extends State<Home> {
                 children: [
                   Expanded(
                     //flex: 10,
-                    child: TextField(
-                      controller: _amountController,
-                      style: TextStyle(
-                        fontSize: displayWidth * upperTextRatio,
-                      ),
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelText: 'Amount',
-                        filled: true,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: TextField(
+                        controller: _amountController,
+                        style: TextStyle(
+                          fontSize: displayWidth * upperTextRatio,
+                        ),
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: 'Amount',
+                          filled: true,
+                          focusedBorder: squareBorder,
+                          enabledBorder: roundBorder,
+                        ),
+                        
                       ),
                     ),
                   ),
@@ -261,15 +265,22 @@ class _HomeState extends State<Home> {
             child: Card(
               margin: EdgeInsets.all(6),
               color: upperTextBackground[index],
-              child: TextField(
-                controller: _descriptionController,
-                style: TextStyle(
-                  fontSize: displayWidth * upperTextRatio,
-                ),
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: 'Description',
-                  filled: true,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: TextField(
+                    controller: _descriptionController,
+                    style: TextStyle(
+                      fontSize: displayWidth * upperTextRatio,
+                    ),
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      focusedBorder: squareBorder,
+                      enabledBorder: roundBorder,
+                      filled: true,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -291,7 +302,7 @@ class _HomeState extends State<Home> {
                     backgroundColor: MaterialStateProperty.all(lightBlue),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Icon(
                       Icons.cancel,
                       color: red,
@@ -303,31 +314,80 @@ class _HomeState extends State<Home> {
                 ),
                 ElevatedButton(
                   onPressed: (() {
+                    FocusManager.instance.primaryFocus?.unfocus();
                     if (_currentMarketId == null || _currentMarketId == -1) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           backgroundColor: lightRed,
-                          content: Text('No market is activated.'))
-                      );
+                          content: Text('No market is activated.')));
                     } else {
+                      if (appBarBalanceText != 'Balance') {
+                        print('Balance button clicked');
+                        appBarBalanceText = 'Balance';
+                        upperText[0] = 'SPEND';
+                        upperText[1] = 'DEPOSIT';
+                        upperText[2] = 'SAVE';
+                      }
                       if (_amountController.text.isNotEmpty) {
-                        setState(() {
-                          final estimate = Estimate(
-                            type: upperText[index],
-                            time: DateTime.now(),
-                            amount: totalAmount,
-                            description: _descriptionController.text,
-                            market_id: _currentMarketId ?? 0,
+                        bool isOk = true;
+                        String str = _amountController.text;
+                        for (int i = 0; i < str.length; i++) {
+                          if (str[i] == '0' ||
+                              str[i] == '1' ||
+                              str[i] == '2' ||
+                              str[i] == '3' ||
+                              str[i] == '4' ||
+                              str[i] == '5' ||
+                              str[i] == '6' ||
+                              str[i] == '7' ||
+                              str[i] == '8' ||
+                              str[i] == '9') {
+                          } else {
+                            isOk = false;
+                            break;
+                          }
+                        }
+
+                        if (isOk) {
+                          setState(() {
+                            final estimate = Estimate(
+                              type: upperText[index],
+                              time: DateTime.now(),
+                              amount: int.parse(_amountController.text),
+                              description: _descriptionController.text,
+                              market_id: _currentMarketId ?? 0,
+                            );
+                            final res = WalletDatabase.instance
+                                .createEstimate(estimate);
+                            print(
+                                'Inserted restlt is : ------' + res.toString());
+                            print('insert to the market id is : ' +
+                                _currentMarketId.toString());
+                          });
+                          _amountController.clear();
+                          _descriptionController.clear();
+                          totalAmount = 0;
+                          amounts.clear();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: lightRed,
+                              content: Text(
+                                'Invalid amount text. Use only digits.',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
                           );
-                          final res =
-                              WalletDatabase.instance.createEstimate(estimate);
-                          print('Inserted restlt is : ------' + res.toString());
-                          print('insert to the market id is : '+_currentMarketId.toString());
-                        });
-                        _amountController.clear();
-                        _descriptionController.clear();
-                        totalAmount = 0;
-                        amounts.clear();
+                        }
+                      }else{
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: lightRed,
+                              content: Text(
+                                'Empty amount can not be added.',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          );
                       }
                     }
                   }),
@@ -539,7 +599,7 @@ class _HomeState extends State<Home> {
                     },
                   ),
             ElevatedButton(
-              child: const Text('Calcle'),
+              child: const Text('Cancel'),
               onPressed: () {
                 _shortDescriptionCotroller.clear();
                 _longDescriptionCotroller.clear();

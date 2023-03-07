@@ -14,15 +14,33 @@ final Color violate = Colors.purple;
 final Color lightViolate = Colors.purple.shade100;
 
 final roundBorder = OutlineInputBorder(
-    borderSide: BorderSide(
-      width: 2,
-      color: blue,
-    ),
-    borderRadius: BorderRadius.circular(20),
-  );
-  final squareBorder = OutlineInputBorder(
-    borderSide: BorderSide(
-      width: 2,
-      color: blue,
-    ),
-  );
+  borderSide: BorderSide(
+    width: 2,
+    color: blue,
+  ),
+  borderRadius: BorderRadius.circular(20),
+);
+final squareBorder = OutlineInputBorder(
+  borderSide: BorderSide(
+    width: 2,
+    color: blue,
+  ),
+);
+String appBarBalanceText = 'Balance';
+List<String> upperText = [
+  'SPEND',
+  'DEPOSIT',
+  'SAVE',
+];
+
+final headingTextDesing = TextStyle(
+  fontSize: 25,
+  fontWeight: FontWeight.w500,
+  color: Colors.black
+);
+final boldText = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w500,
+  color: Colors.black
+);
+

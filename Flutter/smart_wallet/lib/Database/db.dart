@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:smart_wallet/Models/Estimate.dart';
 import 'package:smart_wallet/Models/Market.dart';
+import 'package:smart_wallet/common.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -24,7 +25,7 @@ class WalletDatabase{
     final dbPath = await getDatabasesPath();
     final Path = join(dbPath, filePath);
     
-    return await openDatabase(Path, version:  2, onCreate: _createDB);
+    return await openDatabase(Path, version:  3, onCreate: _createDB);
   }
 
   Future _createDB(Database db, int version) async {
@@ -95,7 +96,8 @@ Future<Details> createDetails(Details details) async {
     if(result.isNotEmpty){
       return result.map((json) => Details.fromJson(json)).toList();
     }else{
-      throw Exception('Database is empty.');
+      //throw Exception('Database is empty.');
+      return [];
     }
   }
 
@@ -154,8 +156,25 @@ Future<Details> createDetails(Details details) async {
     if(result.isNotEmpty){
       return result.map((json) => Market.fromJson(json)).toList();
     }else{
-      throw Exception('Database is empty.');
+      //throw Exception('Database is empty.');
+      return [];
     }
+  }
+
+  Future<int> deleteMarket(int id) async {
+    final db = await instance.database;
+
+    db.delete(
+      etableName,
+      where: '${EstimateFields.market_id} = ?',
+      whereArgs: [id],
+    );
+
+    return await db.delete(
+      mtableName,
+      where: '${MarketFields.id} = ?',
+      whereArgs: [id],
+    );
   }
   
   Future<Estimate> createEstimate(Estimate estimate) async {
@@ -218,7 +237,55 @@ Future<Details> createDetails(Details details) async {
     }
   }
 
-  
+  Future<int> deleteEstimate(int id) async {
+    final db = await instance.database;
+
+    return await db.delete(
+      etableName,
+      where: '${EstimateFields.id} = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<List<int>> readBalance(int marketId) async {
+    int deposit = 0, spend = 0, save = 0;
+    final db = await instance.database;
+    final dresult = await db.query(
+      etableName,
+      where: '${EstimateFields.market_id} = ? AND ${EstimateFields.type} = ?',
+      whereArgs: [marketId,upperText[1]],
+    );
+    final dlist = dresult.map((json) => Estimate.fromJson(json)).toList();
+    for(int i=0;i<dlist.length;i++){
+      deposit += dlist[i].amount;
+    }
+    print('---------Deposit list size '+dlist.length.toString());
+    print('Total deposit : '+deposit.toString());
+    final spresult = await db.query(
+      etableName,
+      where: '${EstimateFields.market_id} = ? AND ${EstimateFields.type} = ?',
+      whereArgs: [marketId,upperText[0]],
+    );
+    final splist = spresult.map((json) => Estimate.fromJson(json)).toList();
+    for(int i=0;i<splist.length;i++){
+      spend += splist[i].amount;
+    }
+    print('---------Spend list size '+splist.length.toString());
+    print('Total spend : '+spend.toString());
+    final saresult = await db.query(
+      etableName,
+      where: '${EstimateFields.market_id} = ? AND ${EstimateFields.type} = ?',
+      whereArgs: [marketId,upperText[2]],
+    );
+    final salist = saresult.map((json) => Estimate.fromJson(json)).toList();
+    for(int i=0;i<salist.length;i++){
+      save += salist[i].amount;
+    }
+    print('---------Save list size '+salist.length.toString());
+    print('Total save : '+save.toString());
+
+    return [(deposit-spend-save),spend,deposit,save];
+  }
 
   Future close() async {
     final db = await instance.database;

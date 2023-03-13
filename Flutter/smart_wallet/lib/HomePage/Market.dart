@@ -181,10 +181,13 @@ class _MarketState extends State<Market1> {
                       children: [
                         Text('Amount : ',
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500)),
+                                fontSize: 18, fontWeight: FontWeight.w500)),
                         Text(
-                          estimate.amount.toString(),
-                          style: TextStyle(fontSize: 16, color: red),
+                          estimate.amount.toString() + ' ৳',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: red,
+                              fontWeight: FontWeight.w500),
                         )
                       ],
                     )
@@ -255,14 +258,15 @@ class _MarketState extends State<Market1> {
           content: Text('Are you sure to delete this estimate.'),
           actions: [
             ElevatedButton(
-              
                 onPressed: (() {
                   WalletDatabase.instance.deleteEstimate(estimateId);
                   Navigator.of(context).popUntil((route) => false);
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: ((context) => HomePage())));
                 }),
-                child: Text('I am Sure',)),
+                child: Text(
+                  'I am Sure',
+                )),
             ElevatedButton(
                 onPressed: (() {
                   Navigator.pop(context);

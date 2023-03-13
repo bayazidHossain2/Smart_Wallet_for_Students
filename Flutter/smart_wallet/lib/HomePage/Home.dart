@@ -93,7 +93,8 @@ class _HomeState extends State<Home> {
       // print('Market name is : '+market.name);
       print('P says market is : ' +
           prefs.getInt(MarketFields.currentMarket).toString());
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => HelpPages())));
+      Navigator.push(
+          context, MaterialPageRoute(builder: ((context) => HelpPages())));
     } else {
       print('find market id is : ' + _currentMarketId.toString());
     }
@@ -175,13 +176,14 @@ class _HomeState extends State<Home> {
           color: lightBlue,
           margin: EdgeInsets.all(5),
           child: Center(
-              child: Text(
-            text + ' /-',
-            style: TextStyle(
-                fontSize: fontSize,
-                color: Colors.black,
-                fontWeight: FontWeight.w800),
-          )),
+            child: Text(
+              text+' ৳',
+              style: TextStyle(
+                  fontSize: fontSize,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w800),
+            ),
+          ),
         ),
       ),
     );
@@ -238,7 +240,6 @@ class _HomeState extends State<Home> {
                           focusedBorder: squareBorder,
                           enabledBorder: roundBorder,
                         ),
-                        
                       ),
                     ),
                   ),
@@ -378,16 +379,16 @@ class _HomeState extends State<Home> {
                             ),
                           );
                         }
-                      }else{
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: lightRed,
-                              content: Text(
-                                'Empty amount can not be added.',
-                                style: TextStyle(color: Colors.black),
-                              ),
+                          SnackBar(
+                            backgroundColor: lightRed,
+                            content: Text(
+                              'Empty amount can not be added.',
+                              style: TextStyle(color: Colors.black),
                             ),
-                          );
+                          ),
+                        );
                       }
                     }
                   }),

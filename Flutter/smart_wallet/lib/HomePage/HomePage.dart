@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
         //leading: Image.asset('images/wallet_icon.png'),
         title: Text(
           'Smart Wallet',
+
           style: TextStyle(fontWeight: FontWeight.w900),
         ),
         actions: [
@@ -48,10 +49,10 @@ class _HomePageState extends State<HomePage> {
                 final activeId = await prefs.getInt(MarketFields.currentMarket);
                 final balanceList =
                     await WalletDatabase.instance.readBalance(activeId ?? 0);
-                appBarBalanceText = balanceList[0].toString() + '/-';
-                upperText[0] = balanceList[1].toString() + '/-';
-                upperText[1] = balanceList[2].toString() + '/-';
-                upperText[2] = balanceList[3].toString() + '/-';
+                appBarBalanceText = balanceList[0].toString() + ' ৳';
+                upperText[0] = balanceList[1].toString() + ' ৳';
+                upperText[1] = balanceList[2].toString() + ' ৳';
+                upperText[2] = balanceList[3].toString() + ' ৳';
                 Navigator.of(context).popUntil((route) => false);
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: ((context) => HomePage())));

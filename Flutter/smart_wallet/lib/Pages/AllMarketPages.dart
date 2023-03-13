@@ -174,16 +174,16 @@ class _AllMarketPageState extends State<AllMarketPage> {
                                 children: [
                                   Text('Spend : ' +
                                       balanceList[i][1].toString() +
-                                      '/-'),
+                                      ' ৳'),
                                   Text('Deposit : ' +
                                       balanceList[i][2].toString() +
-                                      '/-'),
+                                      ' ৳'),
                                   Text('Save : ' +
                                       balanceList[i][3].toString() +
-                                      '/-'),
+                                      ' ৳'),
                                   Text('Balance : ' +
                                       balanceList[i][0].toString() +
-                                      '/-', style: TextStyle(fontWeight: FontWeight.bold),),
+                                      ' ৳', style: TextStyle(fontWeight: FontWeight.bold),),
                                 ],
                               ))
               ],

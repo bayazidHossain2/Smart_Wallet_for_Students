@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smart_wallet/Authentication/Registration.dart';
 import 'package:smart_wallet/Pages/HelpPages.dart';
 import 'package:smart_wallet/common.dart';
@@ -119,6 +120,15 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
+        Container(
+          height: 40,
+          width: 200,
+          child: ElevatedButton.icon(
+            onPressed: (() {}),
+            icon: FaIcon(FontAwesomeIcons.google, color: Colors.red.shade300),
+            label: Text('Sign Up with Google'),
+          ),
+        ),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -127,16 +137,23 @@ class _LoginPageState extends State<LoginPage> {
                 onTap: () {
                   print('Register clicked');
                   //Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: ((context) => RegistrationPage())));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => RegistrationPage())));
                 },
                 child: Text(
                   'Register First.',
                   style: TextStyle(color: Colors.blue),
                 ),
-              ),SizedBox(height: 5,),
+              ),
+              SizedBox(
+                height: 5,
+              ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: ((context) => HelpPages())));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: ((context) => HelpPages())));
                 },
                 child: Text(
                   'Help.',

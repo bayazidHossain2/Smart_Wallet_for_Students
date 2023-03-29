@@ -17,9 +17,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
 
-      appBar: AppBar(
-        title: Text('Smart Wallet'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Smart Wallet'),
+      // ),
       body: Column(
         children: [
           SizedBox(
@@ -152,6 +152,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 GestureDetector(
                   onTap: () {
                     print('Already Have Account clicked');
+                    isRegister = false;
+                    refreshPage(context);
                     //Navigator.pop(context);
                     // Navigator.push(
                     //     context,

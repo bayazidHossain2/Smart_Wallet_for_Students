@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   double displayHeight = 0.0;
   double displayWidth = 0.0;
-  int index = 0;
+  
   List<Widget> pages = [
     Home(),
     Market1(),
@@ -36,42 +36,42 @@ class _HomePageState extends State<HomePage> {
         //leading: Image.asset('images/wallet_icon.png'),
         title: Text(
           'Smart Wallet',
-
           style: TextStyle(fontWeight: FontWeight.w900),
         ),
         actions: [
           Center(
               child: GestureDetector(
             onTap: () async {
-              if (appBarBalanceText == 'Balance') {
+              if (appBarBalanceText == 'Balance'||appBarBalanceText == 'টাকা দেখুন') {
                 print('Balance button clicked');
                 final prefs = await SharedPreferences.getInstance();
                 final activeId = await prefs.getInt(MarketFields.currentMarket);
                 final balanceList =
                     await WalletDatabase.instance.readBalance(activeId ?? 0);
-                appBarBalanceText = balanceList[0].toString() + ' ৳';
-                upperText[0] = balanceList[1].toString() + ' ৳';
-                upperText[1] = balanceList[2].toString() + ' ৳';
-                upperText[2] = balanceList[3].toString() + ' ৳';
+                appBarBalanceText = ((languageIndex ==0)?getBangla(balanceList[0].toString()):balanceList[0].toString()) + ' ৳';
+                upperText[0] = ((languageIndex ==0)?getBangla(balanceList[1].toString()):balanceList[1].toString()) + ' ৳';
+                upperText[1] = ((languageIndex ==0)?getBangla(balanceList[2].toString()):balanceList[2].toString()) + ' ৳';
+                upperText[2] = ((languageIndex ==0)?getBangla(balanceList[3].toString()):balanceList[3].toString()) + ' ৳';
                 Navigator.of(context).popUntil((route) => false);
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: ((context) => HomePage())));
               } else {
                 print('Balance button clicked');
-                appBarBalanceText = 'Balance';
-                upperText[0] = 'SPEND';
-                upperText[1] = 'DEPOSIT';
-                upperText[2] = 'SAVE';
-                Navigator.of(context).popUntil((route) => false);
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: ((context) => HomePage())));
+                appBarBalanceText = (languageIndex ==0)?'টাকা দেখুন':'Balance';
+                upperText[0] = 'খরচ';
+                upperText[1] = 'জমা';
+                upperText[2] = 'সঞ্চয়';
+                upperText[3] = 'SPEND';
+                upperText[4] = 'DEPOSIT';
+                upperText[5] = 'SAVE';
+                refreshPage(context);
               }
             },
             child: Container(
               padding: EdgeInsets.all(8),
               child: Text(
                 appBarBalanceText,
-                style: TextStyle(fontWeight: FontWeight.w600),
+                style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),
               ),
             ),
           )),
@@ -80,13 +80,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: pages[index],
+      body: pages[pageIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: index,
+        currentIndex: pageIndex,
         selectedItemColor: blue,
         onTap: (value) {
           setState(() {
-            index = value;
+            pageIndex = value;
           });
         },
         items: [

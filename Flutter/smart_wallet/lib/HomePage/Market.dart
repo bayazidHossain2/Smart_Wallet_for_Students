@@ -26,6 +26,9 @@ class _MarketState extends State<Market1> {
     'SPEND': lightRed,
     'DEPOSIT': lightViolate,
     'SAVE': lightGreen,
+    'খরচ': lightRed,
+    'জমা': lightViolate,
+    'সঞ্চয়': lightGreen,
   };
 
   @override
@@ -117,7 +120,7 @@ class _MarketState extends State<Market1> {
                                   MaterialPageRoute(
                                       builder: ((context) => AllMarketPage())));
                             }),
-                            child: Text('See All'),
+                            child: Text((languageIndex==0)?'সব দেখুন':'See All'),
                           ),
                         ],
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_wallet/common.dart';
 
 class HelpPages extends StatefulWidget {
@@ -9,8 +10,13 @@ class HelpPages extends StatefulWidget {
 }
 
 class _HelpPageStates extends State<HelpPages> {
-  bool isBangla = true;
+  bool isBangla = (languageIndex == 0)?true:false;
   List<String> language = ['Bn', 'En'];
+  String languageStr = 'Change Language : (Bangla)';
+  void setIndex() async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(languageIndexText, languageIndex);
+  }
 
   // final MaterialStateProperty<Text?> thumbText =
   //     MaterialStateProperty.resolveWith<Text?>(
@@ -51,7 +57,7 @@ class _HelpPageStates extends State<HelpPages> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Change Language : ',
+                      languageStr,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                     ),
@@ -61,14 +67,22 @@ class _HelpPageStates extends State<HelpPages> {
                         onChanged: ((value) {
                           setState(() {
                             isBangla = value;
+                            if(isBangla){
+                              languageStr = 'Change Language : (Bangla)';
+                              languageIndex = 0;
+                            }else{
+                              languageStr = 'Change Language : (English)';
+                              languageIndex = 1;
+                            }
+                            setIndex();
                           });
                         }))
                   ],
                 ),
               ),
             ),
-            buildBoldText(addMarketHeader),
-            buildText(addMarketDesc),
+            buildBoldText(addMarketHeaderS[languageIndex]),
+            buildText(addMarketDescS[languageIndex]),
             buildBoldText(addEstimateHeader),
             buildText(addEstimateDesc),
             buildBoldText(showBalanceHeader),
@@ -81,18 +95,14 @@ class _HelpPageStates extends State<HelpPages> {
             buildText(addDetailsDesc),
             buildBoldText(editDetailsHeader),
             buildText(editDetailsDesc),
-            buildBoldText('বর্ননা Delete করবো কিভাবে?'),
-            buildText(
-                'বর্ননার উপর চাপ দিয়ে রাখলে Edit চলে আসবে। এখন থেকে Delete Button এ চাপ দিলে বর্ননাটি মুছে যাবে।'),
-            buildBoldText('হিসাব Delete করবো কিভাবে?'),
-            buildText(
-                'হিসাব এর উপর চাপ দিয়ে রাখলে Delete এর নিশ্চয়তা চাবে। এখন থেকে I am sure Button এ চাপ দিলে হিসাবটি মুছে যাবে।'),
-            buildBoldText('Market Active করবো কিভাবে?'),
-            buildText(
-                'Market Page এ গিয়ে ডানপাশে উপরের দিকে See All Button এ চাপ দিলে All Market Page এ চলে যাবে। সেখানে নির্ধারিত Market এর Make Active Button এ চাপ দিলে Active হয়ে যাবে।'),
-            buildBoldText('Market Delete করবো কিভাবে?'),
-            buildText(
-                'Market Page এ গিয়ে ডানপাশে উপরের দিকে See All Button এ চাপ দিলে All Market Page এ চলে যাবে। সেখানে নির্ধারিত Market এর Delete Button এ চাপ দিলে Market টি মুছে যাবে।'),
+            buildBoldText(deleteDetailsHeader),
+            buildText(deleteDetailsDesc),
+            buildBoldText(deleteEstimationHeader),
+            buildText(deleteEstimationDesc),
+            buildBoldText(activeMarketHeader),
+            buildText(activeMarketDesc),
+            buildBoldText(deleteMarketHeader),
+            buildText(deleteMarketDesc),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(

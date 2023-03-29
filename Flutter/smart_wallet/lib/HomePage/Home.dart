@@ -18,7 +18,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int? _currentMarketId = -1;
 
   double displayHeight = 0.0;
   double displayWidth = 0.0;
@@ -52,7 +51,6 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getMarketId();
     loadDetails();
   }
 
@@ -70,35 +68,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void getMarketId() async {
-    final prefs = await SharedPreferences.getInstance();
-    this._currentMarketId = prefs.getInt(MarketFields.currentMarket);
-    if (_currentMarketId == null) {
-      print("Null Market id----------");
-      List<Market> allMarketList =
-          await WalletDatabase.instance.readAllMarket();
-      print('Total market find : ' + allMarketList.length.toString());
-      if (allMarketList.isEmpty) {
-        final market = Market(
-          name: 'Default',
-          creatingTime: DateTime.now(),
-        );
-        final currentMarket =
-            await WalletDatabase.instance.createMarket(market);
-        _currentMarketId = currentMarket.id ?? -1;
-        await prefs.setInt(MarketFields.currentMarket, _currentMarketId ?? 0);
-      } else {
-        this._currentMarketId = allMarketList[0].id;
-      }
-      // print('Market name is : '+market.name);
-      print('P says market is : ' +
-          prefs.getInt(MarketFields.currentMarket).toString());
-      Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => HelpPages())));
-    } else {
-      print('find market id is : ' + _currentMarketId.toString());
-    }
-  }
+  
 
   Color? getBackgroundColor(int index) {
     if (this.index == index) {
@@ -122,7 +92,7 @@ class _HomeState extends State<Home> {
           elevation: 5,
           child: Center(
             child: Text(
-              upperText[index],
+              upperText[index + (languageIndex * 3)],
               style: TextStyle(
                 fontSize: min(displayWidth, (2 * displayHeight / 3).floor()) *
                     upperTextRatio,
@@ -170,14 +140,14 @@ class _HomeState extends State<Home> {
           print(text + ' clicked');
           amounts.add(int.parse(text));
           totalAmount = totalAmount + int.parse(text);
-          _amountController.text = totalAmount.toString();
+          _amountController.text = (languageIndex == 0)?getBangla(totalAmount.toString()):totalAmount.toString();
         },
         child: Card(
           color: lightBlue,
           margin: EdgeInsets.all(5),
           child: Center(
             child: Text(
-              text+' ৳',
+              ((languageIndex == 0) ? getBangla(text) : text) + ' ৳',
               style: TextStyle(
                   fontSize: fontSize,
                   color: Colors.black,
@@ -235,7 +205,8 @@ class _HomeState extends State<Home> {
                         ),
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          labelText: 'Amount',
+                          labelText:
+                              (languageIndex == 0) ? 'টাকার পরিমাণ' : 'Amount',
                           filled: true,
                           focusedBorder: squareBorder,
                           enabledBorder: roundBorder,
@@ -276,7 +247,8 @@ class _HomeState extends State<Home> {
                     ),
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      labelText: 'Description',
+                      labelText:
+                          (languageIndex == 0) ? 'খরচের বিবরন' : 'Description',
                       focusedBorder: squareBorder,
                       enabledBorder: roundBorder,
                       filled: true,
@@ -316,21 +288,27 @@ class _HomeState extends State<Home> {
                 ElevatedButton(
                   onPressed: (() {
                     FocusManager.instance.primaryFocus?.unfocus();
-                    if (_currentMarketId == null || _currentMarketId == -1) {
+                    if (currentMarketId == null || currentMarketId == -1) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           backgroundColor: lightRed,
-                          content: Text('No market is activated.')));
+                          content: Text((languageIndex == 0)
+                              ? 'কোন মার্কেট নির্বাচন করা হয়নাই।'
+                              : 'No market is activated.')));
                     } else {
                       if (appBarBalanceText != 'Balance') {
                         print('Balance button clicked');
                         appBarBalanceText = 'Balance';
-                        upperText[0] = 'SPEND';
-                        upperText[1] = 'DEPOSIT';
-                        upperText[2] = 'SAVE';
+                        upperText[0] = 'খরচ';
+                        upperText[1] = 'জমা';
+                        upperText[2] = 'সঞ্চয়';
+                        upperText[3] = 'SPEND';
+                        upperText[4] = 'DEPOSIT';
+                        upperText[5] = 'SAVE';
                       }
                       if (_amountController.text.isNotEmpty) {
                         bool isOk = true;
-                        String str = _amountController.text;
+                        String str = (languageIndex == 0)?getEnglish(_amountController.text): _amountController.text;
+                        print('>>>>>>>str is 1: $str');
                         for (int i = 0; i < str.length; i++) {
                           if (str[i] == '0' ||
                               str[i] == '1' ||
@@ -353,16 +331,25 @@ class _HomeState extends State<Home> {
                             final estimate = Estimate(
                               type: upperText[index],
                               time: DateTime.now(),
-                              amount: int.parse(_amountController.text),
+                              amount: int.parse(str),
                               description: _descriptionController.text,
-                              market_id: _currentMarketId ?? 0,
+                              market_id: currentMarketId ?? 0,
                             );
                             final res = WalletDatabase.instance
                                 .createEstimate(estimate);
                             print(
                                 'Inserted restlt is : ------' + res.toString());
                             print('insert to the market id is : ' +
-                                _currentMarketId.toString());
+                                currentMarketId.toString());
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: lightRed,
+                              content: Text(
+                                (languageIndex == 0)
+                                    ? 'হিসাব যুক্ত সফল হয়েছে।'
+                                    : 'Estimate inserted success.',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ));
                           });
                           _amountController.clear();
                           _descriptionController.clear();
@@ -373,7 +360,9 @@ class _HomeState extends State<Home> {
                             SnackBar(
                               backgroundColor: lightRed,
                               content: Text(
-                                'Invalid amount text. Use only digits.',
+                                (languageIndex == 0)
+                                    ? 'ভুল টাকার পরিমাণ। শুধুমাত্র সংখ্যা ব্যাবহার করুন।'
+                                    : 'Invalid amount text. Use only digits.',
                                 style: TextStyle(color: Colors.black),
                               ),
                             ),
@@ -384,7 +373,9 @@ class _HomeState extends State<Home> {
                           SnackBar(
                             backgroundColor: lightRed,
                             content: Text(
-                              'Empty amount can not be added.',
+                              (languageIndex == 0)
+                                  ? 'টাকার পরিমাণ বেতিত হিসাব যুক্ত করা যাবে না।'
+                                  : 'Empty amount can not be added.',
                               style: TextStyle(color: Colors.black),
                             ),
                           ),
@@ -395,7 +386,7 @@ class _HomeState extends State<Home> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      'ADD',
+                      (languageIndex == 0) ? 'যুক্ত করুন' : 'ADD',
                       style: TextStyle(fontSize: fontSize),
                     ),
                   ),
@@ -516,14 +507,20 @@ class _HomeState extends State<Home> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: detailsUpdatingId == -1
-              ? Text('Creating Details')
-              : Text('Updating Details'),
+              ? Text((languageIndex == 0)
+                  ? 'বর্ননা তৈরী করুন'
+                  : 'Creating Details')
+              : Text((languageIndex == 0)
+                  ? 'বর্ননা পরিবর্তন করুন'
+                  : 'Updating Details'),
           content: SingleChildScrollView(
             child: Column(
               children: [
                 TextField(
                   decoration: InputDecoration(
-                    label: Text('Short Description'),
+                    label: Text((languageIndex == 0)
+                        ? 'ছোট বর্ননা যুক্ত করুন'
+                        : 'Short Description'),
                     focusedBorder: squareBorder,
                     enabledBorder: roundBorder,
                   ),
@@ -534,7 +531,9 @@ class _HomeState extends State<Home> {
                 ),
                 TextField(
                   decoration: InputDecoration(
-                    label: Text('Optional Long Description'),
+                    label: Text((languageIndex == 0)
+                        ? 'ঐচ্ছিক, বড় বর্ননা যুক্ত করুন'
+                        : 'Optional Long Description'),
                     focusedBorder: squareBorder,
                     enabledBorder: roundBorder,
                   ),
@@ -588,7 +587,7 @@ class _HomeState extends State<Home> {
                     height: 0,
                   )
                 : ElevatedButton(
-                    child: const Text('Delete'),
+                    child: Text((languageIndex == 0) ? 'মুছুন' : 'Delete'),
                     onPressed: () {
                       _shortDescriptionCotroller.clear();
                       _longDescriptionCotroller.clear();
@@ -600,7 +599,7 @@ class _HomeState extends State<Home> {
                     },
                   ),
             ElevatedButton(
-              child: const Text('Cancel'),
+              child: Text((languageIndex == 0) ? 'বাতিল' : 'Cancel'),
               onPressed: () {
                 _shortDescriptionCotroller.clear();
                 _longDescriptionCotroller.clear();
@@ -609,7 +608,7 @@ class _HomeState extends State<Home> {
               },
             ),
             ElevatedButton(
-              child: const Text('Save'),
+              child: Text((languageIndex == 0) ? 'সংরক্ষণ করুন' : 'Save'),
               onPressed: () {
                 if (_shortDescriptionCotroller.text.isNotEmpty) {
                   final details = Details(

@@ -136,11 +136,14 @@ class _LoginPageState extends State<LoginPage> {
               GestureDetector(
                 onTap: () {
                   print('Register clicked');
+                  isRegister = true;
+                  pageIndex = 2;
+                  refreshPage(context);
                   //Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => RegistrationPage())));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: ((context) => RegistrationPage())));
                 },
                 child: Text(
                   'Register First.',

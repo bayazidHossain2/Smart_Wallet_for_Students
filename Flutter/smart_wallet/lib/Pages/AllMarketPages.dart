@@ -85,7 +85,7 @@ class _AllMarketPageState extends State<AllMarketPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Markets'),
+        title: Text((languageIndex==0)?'সব মার্কেট':'All Markets'),
       ),
       body: isMarketLoading
           ? CircularProgressIndicator()

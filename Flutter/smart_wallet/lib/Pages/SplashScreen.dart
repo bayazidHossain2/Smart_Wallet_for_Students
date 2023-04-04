@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
       await prefs.setInt(languageIndexText, 0);
       languageIndex = 0;
     } else {
-      languageIndex = _languageIndex ?? 0;
+      languageIndex = _languageIndex;
     }
 
     //Market id setting
@@ -81,12 +81,6 @@ class _SplashScreenState extends State<SplashScreen> {
                       fontWeight: FontWeight.bold),
                 ))),
             Expanded(flex: 4, child: Image.asset('images/empty_wallet.png')),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.all(20),
-                child: CircularProgressIndicator(),
-              ),
-            ),
           ],
         ),
       ),

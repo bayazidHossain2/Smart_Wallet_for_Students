@@ -45,7 +45,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(height: 40,),
+                        SizedBox(
+                          height: 40,
+                        ),
                         TextFormField(
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -132,12 +134,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               //             RegistrationPage()));
                             }
                           },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  4), // Set the border radius
+                              // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                            ),
+                            backgroundColor: Colors.teal,
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: Text('Regiter'),
+                            child: Text('Regiter', style: TextStyle(color: white, fontWeight: FontWeight.bold),),
                           ),
                         ),
-                        SizedBox(height: 300,),
+                        SizedBox(
+                          height: 300,
+                        ),
                       ],
                     ),
                   ),
@@ -169,14 +181,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   height: 5,
                 ),
                 GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: ((context) => HelpPages())));
-                },
-                child: Text(
-                  'Help.',
-                  style: TextStyle(color: Colors.blue),
+                  onTap: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: ((context) => HelpPages())));
+                  },
+                  child: Text(
+                    'Help.',
+                    style: TextStyle(color: Colors.blue),
+                  ),
                 ),
-              ),
               ],
             ),
           ),
@@ -186,6 +199,5 @@ class _RegistrationPageState extends State<RegistrationPage> {
         ],
       ),
     );
-    ;
   }
 }

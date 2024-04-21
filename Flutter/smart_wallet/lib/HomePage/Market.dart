@@ -1,10 +1,11 @@
+import 'package:digital_wallet/Database/db.dart';
+import 'package:digital_wallet/Models/Estimate.dart';
+import 'package:digital_wallet/Pages/AllMarketPages.dart';
+import 'package:digital_wallet/common.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:smart_wallet/Database/db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_wallet/Models/Estimate.dart';
-import 'package:smart_wallet/Pages/AllMarketPages.dart';
-import 'package:smart_wallet/common.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../Models/Market.dart';
 import 'HomePage.dart';
 
@@ -100,16 +101,18 @@ class _MarketState extends State<Market1> {
                     children: [
                       Row(
                         children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.75,
-                            color: lightBlue,
-                            margin: EdgeInsets.all(5),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                currentMarket!.name,
-                                style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.w500),
+                          Expanded(
+                            child: Container(
+                              color: lightBlue,
+                              margin: EdgeInsets.all(5),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  currentMarket!.name,
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ),
                             ),
                           ),
@@ -118,9 +121,19 @@ class _MarketState extends State<Market1> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: ((context) => AllMarketPage())));
+                                      builder: ((context) =>
+                                          const AllMarketPage())));
                             }),
-                            child: Text((languageIndex==0)?'সব দেখুন':'See All'),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    4), // Set the border radius
+                                // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                              ),
+                              backgroundColor: Colors.teal,
+                            ),
+                            child: Text(
+                                (languageIndex == 0) ? 'সব দেখুন' : 'See All', style: TextStyle(color: white),),
                           ),
                         ],
                       ),
@@ -137,20 +150,22 @@ class _MarketState extends State<Market1> {
           onPressed: (() {
             _showMyDialog();
           }),
-          child: Icon(Icons.add),
+          backgroundColor: blue,
+          
+          child: Icon(Icons.add, color: white,),
         ));
   }
 
-  Widget buildEstimates() => StaggeredGridView.countBuilder(
-        padding: EdgeInsets.all(8),
-        itemCount: estimates.length,
-        staggeredTileBuilder: (index) => StaggeredTile.fit(2),
-        crossAxisCount: 4,
+  Widget buildEstimates() => StaggeredGrid.count(
+        // padding: EdgeInsets.all(8),
+        // itemCount: estimates.length,
+        // staggeredTileBuilder: (index) => StaggeredTile.fit(2),
+        crossAxisCount: 2,
         mainAxisSpacing: 4,
         crossAxisSpacing: 4,
-        itemBuilder: (context, index) {
-          final estimate = estimates[index];
-          return GestureDetector(
+        children: estimates.map((estimate) {
+          return Container(
+              child: GestureDetector(
             onTap: () async {
               // await Navigator.of(context).push(MaterialPageRoute(
               //   builder: (context) => NoteDetailPage(noteId: note.id!),
@@ -198,8 +213,8 @@ class _MarketState extends State<Market1> {
                 ),
               ),
             ),
-          );
-        },
+          ));
+        }).toList(),
       );
 
   Future<void> _showMyDialog() async {

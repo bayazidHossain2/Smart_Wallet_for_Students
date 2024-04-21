@@ -1,14 +1,11 @@
 import 'dart:math';
 
+import 'package:digital_wallet/Models/Details.dart';
+import 'package:digital_wallet/common.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_wallet/Models/Details.dart';
-import 'package:smart_wallet/Pages/HelpPages.dart';
-import 'package:smart_wallet/common.dart';
 
 import '../Database/db.dart';
 import '../Models/Estimate.dart';
-import '../Models/Market.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -18,7 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   double displayHeight = 0.0;
   double displayWidth = 0.0;
   int index = 0;
@@ -68,8 +64,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  
-
   Color? getBackgroundColor(int index) {
     if (this.index == index) {
       return lightBlue;
@@ -86,10 +80,21 @@ class _HomeState extends State<Home> {
             this.index = index;
           });
         },
-        child: Card(
-          color: getBackgroundColor(index),
+        child: Container(
           margin: EdgeInsets.all(8),
-          elevation: 5,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 3,
+                offset: Offset(0, 2), // changes position of shadow
+              ),
+            ],
+            color: getBackgroundColor(index),
+          ),
+          // elevation: 5,
           child: Center(
             child: Text(
               upperText[index + (languageIndex * 3)],
@@ -140,10 +145,13 @@ class _HomeState extends State<Home> {
           print(text + ' clicked');
           amounts.add(int.parse(text));
           totalAmount = totalAmount + int.parse(text);
-          _amountController.text = (languageIndex == 0)?getBangla(totalAmount.toString()):totalAmount.toString();
+          _amountController.text = (languageIndex == 0)
+              ? getBangla(totalAmount.toString())
+              : totalAmount.toString();
         },
-        child: Card(
-          color: lightBlue,
+        child: Container(
+          decoration: BoxDecoration(
+              color: lightBlue, borderRadius: BorderRadius.circular(6)),
           margin: EdgeInsets.all(5),
           child: Center(
             child: Text(
@@ -197,7 +205,8 @@ class _HomeState extends State<Home> {
                   Expanded(
                     //flex: 10,
                     child: Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: const EdgeInsets.only(
+                          top: 8, left: 4, right: 4, bottom: 4),
                       child: TextField(
                         controller: _amountController,
                         style: TextStyle(
@@ -205,6 +214,7 @@ class _HomeState extends State<Home> {
                         ),
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
                           labelText:
                               (languageIndex == 0) ? 'টাকার পরিমাণ' : 'Amount',
                           filled: true,
@@ -239,7 +249,8 @@ class _HomeState extends State<Home> {
               color: upperTextBackground[index],
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: const EdgeInsets.only(
+                      top: 8, left: 4, right: 4, bottom: 4),
                   child: TextField(
                     controller: _descriptionController,
                     style: TextStyle(
@@ -247,6 +258,7 @@ class _HomeState extends State<Home> {
                     ),
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(8),
                       labelText:
                           (languageIndex == 0) ? 'খরচের বিবরন' : 'Description',
                       focusedBorder: squareBorder,
@@ -271,8 +283,13 @@ class _HomeState extends State<Home> {
                       amounts.clear();
                     });
                   }),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(lightBlue),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(4), // Set the border radius
+                      // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                    ),
+                    backgroundColor: lightBlue,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -307,7 +324,9 @@ class _HomeState extends State<Home> {
                       }
                       if (_amountController.text.isNotEmpty) {
                         bool isOk = true;
-                        String str = (languageIndex == 0)?getEnglish(_amountController.text): _amountController.text;
+                        String str = (languageIndex == 0)
+                            ? getEnglish(_amountController.text)
+                            : _amountController.text;
                         print('>>>>>>>str is 1: $str');
                         for (int i = 0; i < str.length; i++) {
                           if (str[i] == '0' ||
@@ -383,11 +402,19 @@ class _HomeState extends State<Home> {
                       }
                     }
                   }),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(4), // Set the border radius
+                      // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                    ),
+                    backgroundColor: Colors.teal,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
                       (languageIndex == 0) ? 'যুক্ত করুন' : 'ADD',
-                      style: TextStyle(fontSize: fontSize),
+                      style: TextStyle(fontSize: fontSize, color: white),
                     ),
                   ),
                 ),

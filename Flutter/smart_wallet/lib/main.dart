@@ -1,7 +1,6 @@
+import 'package:digital_wallet/Pages/SplashScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_wallet/HomePage/HomePage.dart';
 import 'package:flutter/services.dart';
-import 'package:smart_wallet/Pages/SplashScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,8 +20,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Smart Wallet',
       //theme: ThemeData.dark(),
-      theme: ThemeData(
+      theme: 
+      ThemeData(
         primarySwatch: Colors.teal,
+        appBarTheme: AppBarTheme(color: Colors.teal),
+        useMaterial3: true,
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.transparent,
+          
+        ),
       ),
       home: SplashScreen(),
     );

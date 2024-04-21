@@ -1,10 +1,8 @@
-import 'dart:ffi';
-
+import 'package:digital_wallet/Authentication/Registration.dart';
+import 'package:digital_wallet/Pages/HelpPages.dart';
+import 'package:digital_wallet/common.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:smart_wallet/Authentication/Registration.dart';
-import 'package:smart_wallet/Pages/HelpPages.dart';
-import 'package:smart_wallet/common.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -108,9 +106,20 @@ class _LoginPageState extends State<LoginPage> {
                                     builder: (context) => RegistrationPage()));
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                4), // Set the border radius
+                            // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                          ),
+                          backgroundColor: Colors.teal,
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Text('Login'),
+                          child: Text(
+                            'Login',
+                            style: TextStyle(color: white),
+                          ),
                         ),
                       ),
                     ],
@@ -126,6 +135,13 @@ class _LoginPageState extends State<LoginPage> {
           child: ElevatedButton.icon(
             onPressed: (() {}),
             icon: FaIcon(FontAwesomeIcons.google, color: Colors.red.shade300),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4), // Set the border radius
+                // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+              ),
+              backgroundColor: Colors.teal.shade100,
+            ),
             label: Text('Sign Up with Google'),
           ),
         ),

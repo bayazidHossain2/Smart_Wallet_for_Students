@@ -1,7 +1,6 @@
+import 'package:digital_wallet/common.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_wallet/common.dart';
-
 class HelpPages extends StatefulWidget {
   const HelpPages({super.key});
 

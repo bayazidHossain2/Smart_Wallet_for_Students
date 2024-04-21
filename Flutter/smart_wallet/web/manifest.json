@@ -1,6 +1,6 @@
 {
-    "name": "smart_wallet",
-    "short_name": "smart_wallet",
+    "name": "digital_wallet",
+    "short_name": "digital_wallet",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

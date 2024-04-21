@@ -1,9 +1,6 @@
-
-import 'dart:io';
-
-import 'package:smart_wallet/Models/Estimate.dart';
-import 'package:smart_wallet/Models/Market.dart';
-import 'package:smart_wallet/common.dart';
+import 'package:digital_wallet/Models/Estimate.dart';
+import 'package:digital_wallet/Models/Market.dart';
+import 'package:digital_wallet/common.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -30,7 +27,7 @@ class WalletDatabase{
 
   Future _createDB(Database db, int version) async {
     final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    final boolType = 'BOOLEAN NOT NULL';
+    // final boolType = 'BOOLEAN NOT NULL';
     final textType = 'TEXT NOT NULL';
     final integerType = 'INTEGER NOT NULL';
 

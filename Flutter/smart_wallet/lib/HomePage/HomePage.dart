@@ -1,8 +1,8 @@
+import 'package:digital_wallet/Database/db.dart';
+import 'package:digital_wallet/HomePage/User.dart';
+import 'package:digital_wallet/common.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_wallet/Database/db.dart';
-import 'package:smart_wallet/HomePage/User.dart';
-import 'package:smart_wallet/common.dart';
 
 import '../Models/Market.dart';
 import 'Home.dart';
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         //leading: Image.asset('images/wallet_icon.png'),
         title: Text(
           'Smart Wallet',
-          style: TextStyle(fontWeight: FontWeight.w900),
+          style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white),
         ),
         actions: [
           Center(
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.all(8),
               child: Text(
                 appBarBalanceText,
-                style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),
+                style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16, color: Colors.white),
               ),
             ),
           )),

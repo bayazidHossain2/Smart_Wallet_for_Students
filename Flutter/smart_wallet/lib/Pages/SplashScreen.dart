@@ -1,8 +1,8 @@
+import 'package:digital_wallet/HomePage/HomePage.dart';
+import 'package:digital_wallet/common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_wallet/HomePage/HomePage.dart';
-import 'package:smart_wallet/common.dart';
 
 import '../Database/db.dart';
 import '../Models/Market.dart';
@@ -16,7 +16,9 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  @override
   void initState(){
+    super.initState();
     getLanguageIndex();
   }
   Future<void> getLanguageIndex() async {

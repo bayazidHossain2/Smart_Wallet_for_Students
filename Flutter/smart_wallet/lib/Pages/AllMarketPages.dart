@@ -1,4 +1,3 @@
-
 import 'package:digital_wallet/Database/db.dart';
 import 'package:digital_wallet/HomePage/HomePage.dart';
 import 'package:digital_wallet/common.dart';
@@ -85,7 +84,7 @@ class _AllMarketPageState extends State<AllMarketPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text((languageIndex==0)?'সব মার্কেট':'All Markets'),
+        title: Text((languageIndex == 0) ? 'সব মার্কেট' : 'All Markets'),
       ),
       body: isMarketLoading
           ? CircularProgressIndicator()
@@ -143,7 +142,18 @@ class _AllMarketPageState extends State<AllMarketPage> {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: ((context) => HomePage())));
                             }),
-                            child: Text('Make Active'),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    4), // Set the border radius
+                                // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                              ),
+                              backgroundColor: Colors.teal,
+                            ),
+                            child: Text(
+                              'Make Active',
+                              style: TextStyle(color: white),
+                            ),
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02,
@@ -154,16 +164,26 @@ class _AllMarketPageState extends State<AllMarketPage> {
                                 deleteMarket(marketList[i].id ?? 0);
                               });
                             }),
-                            child: Text('Delete'),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    4), // Set the border radius
+                                // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                              ),
+                              backgroundColor: Colors.red,
+                            ),
+                            child: Text('Delete', style: TextStyle(color: white),),
                           ),
                         ],
                       )
                     ],
                   ),
                 ),
-                SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 Expanded(
-                  flex: 2,
+                    flex: 2,
                     child: isBalanceLoading
                         ? CircularProgressIndicator()
                         : balanceList[i].length < 4
@@ -181,9 +201,13 @@ class _AllMarketPageState extends State<AllMarketPage> {
                                   Text('Save : ' +
                                       balanceList[i][3].toString() +
                                       ' ৳'),
-                                  Text('Balance : ' +
-                                      balanceList[i][0].toString() +
-                                      ' ৳', style: TextStyle(fontWeight: FontWeight.bold),),
+                                  Text(
+                                    'Balance : ' +
+                                        balanceList[i][0].toString() +
+                                        ' ৳',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ],
                               ))
               ],

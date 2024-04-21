@@ -234,14 +234,30 @@ class _MarketState extends State<Market1> {
           ),
           actions: <Widget>[
             ElevatedButton(
-              child: const Text('Calcle'),
+              style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(4), // Set the border radius
+                      // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                    ),
+                    backgroundColor: Colors.blue,
+                  ),
+              child: const Text('Cancle', style: TextStyle(color: Colors.white),),
               onPressed: () {
                 _marketNameController.clear();
                 Navigator.of(context).pop();
               },
             ),
             ElevatedButton(
-              child: const Text('Save'),
+              style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(4), // Set the border radius
+                      // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+              child: const Text('Save', style: TextStyle(color: Colors.white),),
               onPressed: () async {
                 if (_marketNameController.text.isNotEmpty) {
                   final time = DateTime.now();
@@ -282,14 +298,31 @@ class _MarketState extends State<Market1> {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: ((context) => HomePage())));
                 }),
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(4), // Set the border radius
+                      // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                    ),
+                    backgroundColor: Colors.red,
+                  ),
                 child: Text(
                   'I am Sure',
+                  style: TextStyle(color: white),
                 )),
             ElevatedButton(
                 onPressed: (() {
                   Navigator.pop(context);
                 }),
-                child: Text('Cancle')),
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(4), // Set the border radius
+                      // You can also use other shape options like BeveledRectangleBorder, StadiumBorder, etc.
+                    ),
+                    backgroundColor: Colors.blue,
+                  ),
+                child: Text('Cancle', style: TextStyle(color: white),)),
           ],
         );
       },

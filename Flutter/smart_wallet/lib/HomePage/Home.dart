@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:digital_wallet/Models/Details.dart';
+import 'package:digital_wallet/Models/Market.dart';
 import 'package:digital_wallet/common.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Database/db.dart';
 import '../Models/Estimate.dart';
@@ -57,6 +59,8 @@ class _HomeState extends State<Home> {
     });
 
     this.detailsList = await WalletDatabase.instance.readAllDetails();
+    final prefs = await SharedPreferences.getInstance();
+    currentMarketId = await prefs.getInt(MarketFields.currentMarket);
 
     setState(() {
       detailsIsLoading = false;
@@ -361,7 +365,7 @@ class _HomeState extends State<Home> {
                             print('insert to the market id is : ' +
                                 currentMarketId.toString());
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              backgroundColor: lightRed,
+                              backgroundColor: lightGreen,
                               content: Text(
                                 (languageIndex == 0)
                                     ? 'হিসাব যুক্ত সফল হয়েছে।'
